@@ -15,22 +15,22 @@ for test_case in range(1, 1+T):
             j+=1
             num+=1
             #print("{} {} n과 k {} {} {}".format(j,num, n, k, n-k))
-            #continue
+            continue
         #print("두번째 if 전 {} {} {}".format(i, j, k))
-        elif j == n- 1- k and i < n -1 -k :
+        if j == n- 1- k and i < n -1 -k :
             #print("22222")
             #print("{} {}".format(i,j))
             mat[i][j] = num
             i +=1
             num +=1
-            #continue
-        elif i == n - 1 -k  and j >  k: 
+            continue
+        if i == n - 1 -k  and j >  k: 
             #print("here is threee333333")
             mat[i][j] = num
             j -=1
             num+=1
-            #continue
-        elif j == k and i > k :
+            continue
+        if j == k and i > k :
             mat[i][j] = num
             i-=1
             num+=1
@@ -41,7 +41,7 @@ for test_case in range(1, 1+T):
                 if num+1 == n *n:
                     mat[i][j+1]=n*n
                     break
-            #continue
+            continue
         
     print("#{}".format(test_case))
     for row in range(n):
