@@ -9,7 +9,6 @@ with open('input1226.txt','r') as fp:
             lines[idx]= list(map(int,fp.readline().strip()))
             if 2 in lines[idx]:
                 start = lines[idx].index(2)
-                print(start)
             if 3 in lines[idx] :
                 end = lines[idx].index(3)
         print(lines)    
