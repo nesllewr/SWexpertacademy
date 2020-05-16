@@ -1,52 +1,59 @@
 
-def check_priority(operator, stack,length,postfix):
-    if operator == "*":
-        if stack[length-1] =="*":
-            postfix.append(stack[length-1])
-            del stack[length-1]
+def check_priority(operator, stack, postfix):
+    if stack[-1] == "(" :
+        stack.append(operator)
+        return
+    elif operator == "*":
+        if stack[-1] =="*":
+            postfix.append(stack[-1])
+            stack.pop()
             stack.append(operator)
         else :
             stack.append(operator)
     else :
-        if stack[length-1] != "*":
-            postfix.append(stack[length-1])
-            del stack[length-1]
-            stack.append(operator)
+        postfix.append(stack[-1])
+        stack.pop()
+        stack.append(operator)
+    
+def calculate(postfix):
+    stack = []
+    for idx in postfix:
+        if idx.isdigit() == True:
+            stack.append(int(idx))
         else :
-            stack.append(operator)
-
+            second = int(stack.pop())
+            first = int(stack.pop())
+            if idx == "*" :
+                now = (first * second)
+            elif idx=="+" :
+                now = (first + second)
+            stack.append(now)
+    return stack[0]
 
 with open('input1224.txt','r') as fp :
     for test_case in range(1,11) :
         length = int(fp.readline())
-        line = list(fp.readline())
+        line = list(fp.readline().strip("\n"))
         stack = list()
         postfix = list()
-        mode = 0
-        for idx in range(length) :
+        mode = 0 ; num =0
+        for idx in line :
             length = len(stack)
-            print(line[idx], end="  ")
-            if line[idx].isdigit()==True:
-                postfix.append(line[idx])
+            if idx.isdigit()==True:
+                postfix.append(idx)
             else :
-                if length == 0:
-                    stack.append(line[idx])
-                    continue                  
-                elif line[idx] == "(":
-                    stack.append(line[idx])
-                    continue
-                elif line[idx] ==")":
-                    i = length
-                    print(i, stack)
-                    while stack[i-1] != "(":
-                        postfix.append(stack[i-1])
-                        i-=1
-                    del stack[i-1:length]
-                    continue
+                if not stack:
+                    stack.append(idx)
                 else :
-                    check_priority(line[idx],stack, length,postfix)
-        
-
-        #print(length, postfix)
-#        print("#{} {}".format(test_case, result))
-
+                    if idx == "(":
+                        stack.append(idx)
+                    elif idx == ")":
+                        i = length
+                        while stack[i-1] != "(":
+                            postfix.append(stack[i-1])
+                            i-=1
+                        del stack[i-1:length]
+                    else :
+                        check_priority(idx, stack, postfix)
+        result = calculate(postfix)
+        print("#{} {}".format(test_case, result))
